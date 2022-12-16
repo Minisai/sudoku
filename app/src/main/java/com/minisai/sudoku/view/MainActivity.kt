@@ -5,6 +5,7 @@ import android.os.Bundle
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.minisai.sudoku.databinding.ActivityMainBinding
+import com.minisai.sudoku.game.Cell
 import com.minisai.sudoku.view.custom.SudokuBoardView
 import com.minisai.sudoku.viewmodel.PlaySudokuViewModel
 
@@ -20,6 +21,11 @@ class MainActivity : AppCompatActivity(), SudokuBoardView.onTouchListener {
 
         viewModel = ViewModelProvider(this).get(PlaySudokuViewModel::class.java)
         viewModel.sudokuGame.selectedCellLiveData.observe(this, Observer { updateSelectedCellUI(it) })
+        viewModel.sudokuGame.cellsLiveData.observe(this, Observer { updateCells(it) })
+    }
+
+    private fun updateCells(cells: List<Cell>?) = cells?.let {
+        binding.sudokuBoardView.updateCells(cells)
     }
 
     private fun updateSelectedCellUI(cell: Pair<Int, Int>?) = cell?.let {
