@@ -51,7 +51,11 @@ class MainActivity : AppCompatActivity(), SudokuBoardView.onTouchListener {
     }
 
     private fun updateCells(cells: List<Cell>?) = cells?.let {
-        binding.sudokuBoardView.updateCells(cells)
+        if (viewModel.sudokuGame.isSolved) {
+            binding.sudokuBoardView.updateCells(viewModel.sudokuGame.generateBoard().cells)
+        } else {
+            binding.sudokuBoardView.updateCells(cells)
+        }
     }
 
     private fun updateSelectedCellUI(cell: Pair<Int, Int>?) = cell?.let {
